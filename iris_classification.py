@@ -199,3 +199,10 @@ plt.legend()
 # Display the graph
 plt.tight_layout()
 plt.show()
+
+# Save the trained model for the web application
+import joblib
+
+joblib.dump(model, "iris_model.pkl")
+
+print("\nTrained model saved successfully as iris_model.pkl")

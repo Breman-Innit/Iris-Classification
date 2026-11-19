@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Classification | Breman</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <h1>Iris Classification</h1>
+            <p>Machine Learning Flower Prediction</p>
+        </header>
+
+        <section class="prediction-card">
+
+            <h2>Flower Measurements</h2>
+            <p class="description">
+                Enter the flower measurements below to identify its species.
+            </p>
+
+            <form id="prediction-form">
+
+                <div class="input-group">
+                    <label for="sepal_length">Sepal Length (cm)</label>
+                    <input type="number" id="sepal_length" step="any" min="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="sepal_width">Sepal Width (cm)</label>
+                    <input type="number" id="sepal_width" step="any" min="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="petal_length">Petal Length (cm)</label>
+                    <input type="number" id="petal_length" step="any" min="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="petal_width">Petal Width (cm)</label>
+                    <input type="number" id="petal_width" step="any" min="0" required>
+                </div>
+
+                <button type="submit" id="predict-button">
+                    Predict Species
+                </button>
+
+            </form>
+
+            <div id="result" class="result hidden">
+                <h3>Prediction Result</h3>
+                <p id="species"></p>
+                <p id="confidence"></p>
+<button type="button" id="reset-button">Try Another Prediction</button>
+            </div>
+
+            <p id="error-message" class="error hidden"></p>
+
+        </section>
+
+        <footer>
+            <p>Powered by Machine Learning · Scikit-learn</p>
+        </footer>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
