@@ -4,7 +4,7 @@ from pathlib import Path
 from flask import Flask, request, jsonify, render_template
 import joblib
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="public", static_url_path="")
 
 # Load the trained model from the project directory
 BASE_DIR = Path(__file__).resolve().parent
