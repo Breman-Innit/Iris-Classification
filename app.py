@@ -1,12 +1,16 @@
 
+from pathlib import Path
+
 from flask import Flask, request, jsonify, render_template
 import joblib
-import numpy as np
 
 app = Flask(__name__)
 
-# Load the trained Iris classification model
-model = joblib.load("iris_model.pkl")
+# Load the trained model from the project directory
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "iris_model.pkl"
+
+model = joblib.load(MODEL_PATH)
 
 
 @app.route("/")
@@ -19,7 +23,9 @@ def predict():
     try:
         data = request.get_json()
 
-        # Get the four flower measurements
+        if not isinstance(data, dict):
+            return jsonify({"error": "Invalid request data."}), 400
+
         measurements = [
             float(data["sepal_length"]),
             float(data["sepal_width"]),
@@ -27,10 +33,7 @@ def predict():
             float(data["petal_width"])
         ]
 
-        # Make a prediction
         prediction = model.predict([measurements])[0]
-
-        # Get prediction probabilities
         probabilities = model.predict_proba([measurements])[0]
 
         result = {
@@ -41,11 +44,16 @@ def predict():
         return jsonify(result)
 
     except (ValueError, TypeError, KeyError):
-        return jsonify({"error": "Please provide four valid numerical measurements."}), 400
+        return jsonify({
+            "error": "Please provide four valid numerical measurements."
+        }), 400
 
     except Exception:
-        return jsonify({"error": "An error occurred while making the prediction."}), 500
+        app.logger.exception("Prediction failed")
+        return jsonify({
+            "error": "An error occurred while making the prediction."
+        }), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
